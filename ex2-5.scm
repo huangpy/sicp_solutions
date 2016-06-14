@@ -1,0 +1,22 @@
+(load "general.scm")
+(define (cons a b)
+  (* (expt 2 a)
+     (expt 3 b)))
+
+(define (car z)
+  (define (iter result sum)
+    (if (even? result)
+	(iter (/ result 2) (+ sum 1))
+	sum))
+  (iter z 0))
+
+(define (cdr z)
+  (define (iter result sum)
+    (if (= (remainder result 3) 0)
+	(iter (/ result 3) (+ sum 1))
+	sum))
+  (iter z 0))
+
+(define z (cons 5 7))
+(car z)
+(cdr z)

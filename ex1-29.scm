@@ -1,0 +1,16 @@
+(load "1-3-1.scm")
+(load "general.scm")
+
+(define (s-integral f a b n)
+  (define h (/ (- b a) n))
+  (define (yk k) (f (+ a (* k h))))
+  (define (modulus k)
+    (cond ((or (= k 0) (= k n)) 1)
+	  ((odd? k) 4)
+	  (else 2)))
+  (define (term k)
+    (* (modulus k) (yk k)))
+  (define (next k) (+ k 1))
+  (* (/ h 3.0) (sum term 0 next n)))
+
+(s-integral cube 0 1 10)

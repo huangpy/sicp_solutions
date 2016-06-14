@@ -1,0 +1,40 @@
+(load "2-3-2.scm")
+(load "1-2-4.scm")
+
+(define (make-exponentiation base exponent)
+  (cond ((not (number? exponent)) (error "exponent must be number"))
+	((= exponent 0) 1)
+	((= exponent 1) base)
+	((number? base) (expt base exponent))
+	(else (list '** base exponent))))
+
+(define (exponentiation? x)
+  (and (pair? x) (eq? (car x) '**)))
+
+(define (base e) (cadr e))
+
+(define (exponent e) (caddr e))
+
+(define (deriv exp var)
+  (cond ((number? exp) 0)
+	((variable? exp)
+	 (if (same-variable? exp var) 1 0))
+	((sum? exp) (make-sum (deriv (addend exp) var)
+			      (deriv (augend exp) var)))
+	((product? exp) (let ((a (multiplier exp))
+			      (b (multiplicand exp)))
+			  (make-sum (make-product a (deriv b var))
+				    (make-product b (deriv a var)))))
+	((exponentiation? exp)
+	 (let ((b (base exp))
+	       (e (exponent exp)))
+	   (make-product (make-product e (make-exponentiation b (- e 1)))
+			 (deriv b var))))
+	(else (error "Unknow expression type -- DERIV" exp))))
+
+(deriv '(** x 3) 'x)
+(deriv '(+ (* 2 x) (** x 3)) 'x)
+(deriv '(* 3 (** x 1)) 'x)
+(deriv '(* 4 (** x 0)) 'x)
+(deriv '(** 2 3) 'x)
+

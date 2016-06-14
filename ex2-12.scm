@@ -1,0 +1,15 @@
+(load "2-1-4.scm")
+;;work with center and percent in terms of the original constructor and selector
+(define (make-center-percent c p)
+  (make-interval (- c (* c p)) (+ c (* c p))))
+(define (center i)
+  (/ (+ (lower-bound i) (upper-bound i)) 2.0))
+(define (width i)
+  (- (upper-bound i) (lower-bound)))
+(define (percent i)
+  (/ (- (upper-bound i) (center i))
+     (center i)))
+
+(define i1 (make-center-percent 5 0.5))
+(center i1)
+(percent i1)

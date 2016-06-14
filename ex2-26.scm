@@ -1,0 +1,15 @@
+(load "2-2-1.scm")
+(define x (list 1 2 3))
+(define y (list 4 5 6))
+(append x y)
+(cons x y)
+(list x y)
+
+(cons 4 nil)
+(list 4)
+(cons 4 (cons 3 (cons 2 1)))
+(cons 4 (cons 3 (cons 1 (cons 2 nil))))
+(cons (cons 1 2) 3)
+(cons (cons 1 2) (cons 3 4))
+(cons (cons 1 2) (list 3 4))
+
